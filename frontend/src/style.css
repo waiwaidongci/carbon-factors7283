@@ -4,3 +4,18 @@
 .shell{grid-template-columns:210px minmax(0,1fr)}.sidebar{border-top:18px solid var(--accent)}.page-heading{display:grid;grid-template-columns:1fr;max-width:950px;padding-bottom:25px;border-bottom:1px solid var(--ink)}.page-heading h1{font-size:clamp(30px,3vw,44px)}.report{border-top:5px double var(--accent)}.metrics>div{border:0;padding:8px 20px 8px 0;border-bottom:3px solid var(--accent)}.inbox article{border-left:8px solid var(--accent);padding-left:20px}.login-story{background:var(--paper);color:var(--ink);border-left:35px solid var(--ink)}.login-form{background:var(--ink);color:var(--paper)}.login-form input{background:var(--paper)}.login-form button{background:var(--accent);border-color:var(--accent)}@media(max-width:767px){.shell{display:block}}
 
 .policy-row{display:flex;flex-wrap:wrap;gap:15px;align-items:end;border-bottom:1px solid var(--line);padding:12px 0}.policy-row label{flex:1;min-width:140px}.policy-row button{font-size:11px;margin-bottom:14px;background:transparent;color:var(--ink)}#add-policy-row{background:transparent;color:var(--accent);border-color:var(--accent);margin:15px 0 25px}fieldset{border:1px solid var(--line);margin:20px 0}.weekday{display:inline-flex;align-items:center;margin:10px}.weekday input{width:auto;margin:0 6px 0 0}input[type=number]{appearance:textfield}
+
+/* 两期差异归因 */
+.recon-job{border:1px solid var(--line);border-left:8px solid var(--accent);padding:18px 22px;margin:18px 0;background:color-mix(in oklch,var(--paper) 96%,var(--ink))}
+.recon-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.recon-head h3{margin:0;font-size:16px}
+.muted{color:var(--muted);font-size:11px}
+.progress{height:8px;background:color-mix(in oklch,var(--ink) 12%,var(--paper));margin:12px 0 6px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .4s}
+.recon-result{border-top:2px solid var(--ink);margin-top:16px;padding-top:14px}
+.recon-result .ok{color:oklch(.45 .12 150);font-weight:600}
+.frozen-basis{font-size:11px;line-height:1.9;color:var(--muted);background:color-mix(in oklch,var(--accent) 7%,var(--paper));padding:14px 18px}
+.frozen-basis code{font-size:10px;word-break:break-all}
+.recon-reset{background:transparent;color:var(--accent);border-color:var(--accent);font-size:12px;margin-top:12px}
+.status.rejected{color:oklch(.5 .18 25)}
+.status.completed{color:oklch(.45 .12 150)}

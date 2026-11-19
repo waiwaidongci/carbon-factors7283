@@ -10,7 +10,9 @@ def submit(db,user,body):
  if not policy: raise HTTPException(404,'口径版本不存在')
  sources=[x.data for x in db.query(Source).order_by(Source.id).all() if body.period=='全部' or x.data.get('period')==body.period]
  if not sources: raise HTTPException(422,'所选期间没有底稿')
- snapshot={'policy':policy.data,'sources':sources,'period':body.period}
+ # 冻结连续编号：按提交时的底稿顺序赋予 1..N，作为两期配对的冻结键
+ frozen_sources=[dict(data,line_no=i) for i,data in enumerate(sources,start=1)]
+ snapshot={'policy':policy.data,'sources':frozen_sources,'period':body.period}
  checksum=hashlib.sha256(json.dumps(snapshot,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
  obj=Run(name=body.name,status='queued',snapshot=snapshot,checksum=checksum,created=time.time(),approved=False)
  db.add(obj);log(db,user.email,'run.queue',body.name);db.commit()

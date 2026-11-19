@@ -31,3 +31,7 @@ target/
 *.o
 *.obj
 .DS_Store
+# 归因本地 SQLite 存储（生产用 PostgreSQL，由 RECON_SQLITE_URL 指定）
+*.recon.db
+*.recon.db-wal
+*.recon.db-shm

@@ -10,7 +10,10 @@ def emissions(activity,quantity,unit,factors):
  return qty,kg
 def calculate(sources,policy):
  validate_policy(policy);pivot=defaultdict(lambda:[Decimal(0),Decimal(0),0]);rows=[]
- for s in sources:
+ # 冻结编号 line_no 属于快照配对元数据，不参与核算字段校验，统一剥离
+ calc_sources=[{k:v for k,v in s.items() if k!='line_no'} for s in sources]
+ for s in calc_sources:
   validate_source(s);qty,kg=emissions(s['activity'],s['quantity'],s['unit'],policy['factors']);factor=policy['factors'][s['activity']];k=(s['period'],s['department'],s['activity'],factor['unit']);p=pivot[k];p[0]+=qty;p[1]+=kg;p[2]+=1
  for (period,dept,activity,unit),(qty,kg,count) in sorted(pivot.items()):rows.append({'月份':period,'部门':dept,'活动':activity,'统一单位':unit,'统一活动量':float(qty),'因子kg每单位':policy['factors'][activity]['kg_per_unit'],'排放kgCO2e':float(kg),'记录数':count})
- return {'summary':{'活动记录数':len(sources),'核算kgCO2e':float(sum(p[1] for p in pivot.values())),'因子版本':policy['version']},'rows':rows,'method':'先按显式维度一致转换表转换活动量，再用Decimal活动量×冻结因子；按月份×部门×活动透视。缺活动因子或不兼容单位即失败，不以0替代。','warnings':[policy['scope']]}
+ exact_total=sum((p[1] for p in pivot.values()),Decimal(0))
+ return {'summary':{'活动记录数':len(calc_sources),'核算kgCO2e':float(exact_total),'核算kgCO2e精确':str(exact_total),'因子版本':policy['version']},'rows':rows,'method':'先按显式维度一致转换表转换活动量，再用Decimal活动量×冻结因子；按月份×部门×活动透视。缺活动因子或不兼容单位即失败，不以0替代。','warnings':[policy['scope']]}
